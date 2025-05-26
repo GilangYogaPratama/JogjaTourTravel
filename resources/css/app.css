@@ -1,0 +1,19 @@
+/* Tambahan untuk layout AdminLTE */
+.custom-wrapper {
+    margin: 20px;
+    border-radius: 15px;
+    overflow: hidden;
+    background-color: #fff;
+    padding: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.custom-navbar {
+    margin: 20px;
+    border-radius: 15px;
+}
+
+.custom-sidebar {
+    margin: 20px;
+    border-radius: 15px;
+}

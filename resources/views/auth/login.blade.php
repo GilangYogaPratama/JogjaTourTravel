@@ -1,15 +1,18 @@
 @extends('adminlte.layouts.auth')
 
 @section('content')
-<body class="hold-transition login-page">
+<body class="hold-transition login-page" style="background: linear-gradient(to right, #3b82f6, #33a1ea);">
     <div class="login-box">
       <div class="login-logo">
-        <a href="{{ route('home') }}"><b>{{ config('app.name', 'Laravel') }}</b> 1.0</a>
+        <div class="flex items-center space-x-3">
+          <img src="{{ asset('storage/images/JTT.png') }}" alt="Logo" style="width: 80%;">
+        </div>
       </div>
       <!-- /.login-logo -->
       <div class="card">
         <div class="card-body login-card-body">
-          <p class="login-box-msg">Sign in to start your session</p>
+          <p>Masukkan email dan password anda</p>
+          
 
           <form action="{{ route('login') }}" method="post">
             @csrf
@@ -39,43 +42,22 @@
                 </span>
               @enderror
             </div>
-            <div class="row">
-              <div class="col-8">
-                <div class="icheck-primary">
-                  <input type="checkbox" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }}>
-                  <label for="remember">
-                    {{ __('Remember Me') }}
-                  </label>
-                </div>
+            <div class="row align-items-center">
+              <!-- Tombol Login -->
+              <div class="col-6">
+                <button type="submit" class="btn btn-primary btn-block d-flex align-items-center justify-content-center">
+                  <i class="fas fa-paper-plane mr-2"></i> {{ __('Login') }}
+                </button>
               </div>
-              <!-- /.col -->
-              <div class="col-4">
-                <button type="submit" class="btn btn-primary btn-block">{{ __('Login') }}</button>
+
+              <!-- Tombol Kembali -->
+              <div class="col-6 text-right">
+                <a href="{{ url('/') }}" class="text-sm text-muted text-decoration-none hover:text-primary">
+                  ← Kembali ke Beranda
+                </a>
               </div>
-              <!-- /.col -->
             </div>
           </form>
-
-          <div class="social-auth-links text-center mb-3">
-            <p>- OR -</p>
-            <a href="#" class="btn btn-block btn-primary">
-              <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
-            </a>
-            <a href="#" class="btn btn-block btn-danger">
-              <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
-            </a>
-          </div>
-          <!-- /.social-auth-links -->
-          @if (Route::has('password.request'))
-          <p class="mb-1">
-            <a href="{{ route('password.request') }}">{{ __('Forgot Your Password?') }}</a>
-          </p>
-          @endif
-          @if (Route::has('register'))
-          <p class="mb-0">
-            <a href="{{ route('register') }}" class="text-center">{{ __('Register') }}</a>
-          </p>
-          @endif
         </div>
         <!-- /.login-card-body -->
       </div>
