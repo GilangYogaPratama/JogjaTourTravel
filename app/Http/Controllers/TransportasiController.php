@@ -15,7 +15,7 @@ class TransportasiController extends Controller
     public function index()
     {
         $transportasi = Transportasi::all();
-        return view('Transportasi.index', [
+        return view('pengelola.Transportasi.index', [
             'transportasi' => $transportasi
         ]);
     }
@@ -25,7 +25,7 @@ class TransportasiController extends Controller
      */
     public function create()
     {
-        return view('transportasi.create');
+        return view('pengelola.transportasi.create');
     }
 
     /**
@@ -68,7 +68,7 @@ class TransportasiController extends Controller
     public function edit(string $id)
     {
         $transportasi = Transportasi::findOrFail($id);
-        return view('transportasi.edit', [
+        return view('pengelola.transportasi.edit', [
             'transportasi' => $transportasi
         ]);
     }

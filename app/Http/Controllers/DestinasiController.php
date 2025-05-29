@@ -14,9 +14,26 @@ class DestinasiController extends Controller
     public function index()
     {
         $destinasi = Destinasi::all();
-        return view('Destinasi.index', [
+        return view('pengelola.Destinasi.index', [
             'destinasi' => $destinasi
         ]);
+
+        return view('pengelola.Destinasi.index', ['destinasi' => $destinasi]);
+
+    }
+
+    public function showwisatawan()
+    {
+        // untuk wisatawan
+        $destinasi = Destinasi::all();
+        return view('rekomendasi.index', ['destinasi' => $destinasi]);
+    }
+
+    public function hasil()
+    {
+        // untuk wisatawan
+        $destinasi = Destinasi::all();
+        return view('rekomendasi.hasil', ['destinasi' => $destinasi]);
     }
 
     /**
@@ -24,7 +41,7 @@ class DestinasiController extends Controller
      */
     public function create()
     {
-        return view('destinasi.create');
+        return view('pengelola.destinasi.create');
     }
 
     /**
@@ -66,7 +83,7 @@ class DestinasiController extends Controller
     public function edit(string $id)
     {
         $destinasi = Destinasi::findOrFail($id);
-        return view('destinasi.edit', [
+        return view('pengelola.destinasi.edit', [
             'destinasi' => $destinasi
         ]);
     }

@@ -13,7 +13,7 @@ class LayananTambahanController extends Controller
     public function index()
     {
         $layanantambahan = LayananTambahan::all();
-        return view('LayananTambahan.index', [
+        return view('pengelola.LayananTambahan.index', [
             'layanantambahan' => $layanantambahan
         ]);
     }
@@ -23,7 +23,7 @@ class LayananTambahanController extends Controller
      */
     public function create()
     {
-        return view('layanantambahan.create');
+        return view('pengelola.layanantambahan.create');
     }
 
     /**
@@ -57,7 +57,7 @@ class LayananTambahanController extends Controller
     public function edit(string $id)
     {
         $layanantambahan = LayananTambahan::findOrFail($id);
-        return view('layanantambahan.edit', [
+        return view('pengelola.layanantambahan.edit', [
             'layanantambahan' => $layanantambahan
         ]);
     }

@@ -13,23 +13,21 @@ class Rekomendasi extends Model
     protected $fillable = [
         'budget',
         'jumlah_orang',
-        'id_destinasi',
         'id_transportasi',
-        'id_layanantambahan',
     ];
 
-    public function Destinasi() 
+    public function destinasi()
     {
-        return $this->belongsTo('App\Models\Destinasi', 'id_destinasi');
+        return $this->belongsToMany(Destinasi::class, 'rekomendasi_destinasi')->withTimestamps();
     }
 
-    public function Transportasi() 
+    public function layananTambahan()
     {
-        return $this->belongsTo('App\Models\Transportasi', 'id_transportasi');
+        return $this->belongsToMany(LayananTambahan::class, 'rekomendasi_layanantambahan');
     }
 
-    public function LayananTambahan() 
+    public function transportasi()
     {
-        return $this->belongsTo('App\Models\LayananTambahan', 'id_layanantambahan');
+        return $this->belongsTo(Transportasi::class, 'id_transportasi');
     }
 }

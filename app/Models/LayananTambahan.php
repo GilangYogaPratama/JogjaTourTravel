@@ -21,4 +21,9 @@ class LayananTambahan extends Model
         return $this->belongsToMany(Paket::class, 'paket_layanan', 'layanantambahan_id', 'paket_id')->withTimestamps();
     }
 
+    public function rekomendasi()
+    {
+        return $this->belongsToMany(Rekomendasi::class, 'rekomendasi_layanan_tambahan');
+    }
+
 }

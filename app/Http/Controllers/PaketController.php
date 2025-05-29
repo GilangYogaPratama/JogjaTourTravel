@@ -16,7 +16,7 @@ class PaketController extends Controller
     public function index()
     {
         $paket = Paket::all();
-        return view('Paket.index', [
+        return view('pengelola.Paket.index', [
             'paket' => $paket
         ]);
     }
@@ -29,7 +29,7 @@ class PaketController extends Controller
         $destinasi = Destinasi::all(); 
         $transportasi = Transportasi::all();
         $layanantambahan = LayananTambahan::all();
-        return view('paket.create', compact('destinasi', 'transportasi', 'layanantambahan'));
+        return view('pengelola.paket.create', compact('destinasi', 'transportasi', 'layanantambahan'));
     }
 
     /**
@@ -82,7 +82,7 @@ class PaketController extends Controller
         $layanantambahan = LayananTambahan::all();
         $destinasi = Destinasi::all();
 
-        return view('paket.edit', compact('paket', 'transportasi', 'layanantambahan', 'destinasi'));
+        return view('pengelola.paket.edit', compact('paket', 'transportasi', 'layanantambahan', 'destinasi'));
     }
 
     /**
@@ -104,7 +104,7 @@ class PaketController extends Controller
         $paket->layanantambahan()->sync($request->id_layanantambahan ?? []);
         $paket->destinasi()->sync($request->id_destinasi ?? []);
 
-        return redirect()->route('Paket')->with('success', 'Paket berhasil diperbarui!');
+        return redirect()->route('pengelola.Paket')->with('success', 'Paket berhasil diperbarui!');
     }
 
     /**

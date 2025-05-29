@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Destinasi extends Model
 {
     use HasFactory;
-    protected $table = 'Destinasi';
+    protected $table = 'destinasi';
 
     protected $fillable = [
         'nama_destinasi',
@@ -23,6 +23,11 @@ class Destinasi extends Model
     public function paket()
     {
         return $this->belongsToMany(Paket::class, 'paket_destinasi');
+    }
+
+    public function rekomendasi()
+    {
+        return $this->belongsToMany(Rekomendasi::class, 'rekomendasi_destinasi')->withTimestamps;
     }
 
 }

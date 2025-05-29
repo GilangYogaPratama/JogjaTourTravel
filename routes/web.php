@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaketController;
 use App\Http\Controllers\DestinasiController;
+use App\Http\Controllers\RekomendasiController;
 use App\Http\Controllers\TransportasiController;
 use App\Http\Controllers\LayananTambahanController;
 
@@ -18,7 +19,7 @@ use App\Http\Controllers\LayananTambahanController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('rekomendasi.index');
 });
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -38,6 +39,8 @@ Route::post('/destinasi/create', [App\Http\Controllers\DestinasiController::clas
 Route::get('/destinasi/{id}/edit', [App\Http\Controllers\DestinasiController::class, 'edit'])->name('editDestinasi');
 Route::post('/destinasi/{id}/edit', [App\Http\Controllers\DestinasiController::class, 'update'])->name('updateDestinasi');
 Route::post('/destinasi/{id}/delete', [App\Http\Controllers\DestinasiController::class, 'destroy'])->name('deleteDestinasi');
+//Destinasi:Wisatawan
+Route::get('/', [DestinasiController::class, 'showwisatawan'])->name('wisatawan.index');
 
 //Transportasi
 Route::get('/transportasi/create', [App\Http\Controllers\TransportasiController::class, 'create'])->name('createTransportasi');
@@ -59,3 +62,14 @@ Route::post('/paket/create', [App\Http\Controllers\PaketController::class, 'stor
 Route::get('/paket/{id}/edit', [App\Http\Controllers\PaketController::class, 'edit'])->name('editPaket');
 Route::post('/paket/{id}/edit', [App\Http\Controllers\PaketController::class, 'update'])->name('updatePaket');
 Route::post('/paket/{id}/delete', [App\Http\Controllers\PaketController::class, 'destroy'])->name('deletePaket');
+
+//Rekomendasi
+Route::get('/rekomendasi', [RekomendasiController::class, 'rekomendasi'])->name('rekomendasi.cari');
+Route::post('/rekomendasi/edit-redirect', [RekomendasiController::class, 'redirectToEdit'])->name('rekomendasi.editRedirect');
+Route::get('/rekomendasi/edit', [RekomendasiController::class, 'edit'])->name('rekomendasi.edit');
+Route::post('/rekomendasi/simpan', [RekomendasiController::class, 'simpan'])->name('rekomendasi.simpan');
+Route::post('/rekomendasi/edit/tambah', [RekomendasiController::class, 'tambah'])->name('rekomendasi.tambah');
+Route::post('/rekomendasi/edit/hapus', [RekomendasiController::class, 'hapus'])->name('rekomendasi.hapus');
+Route::post('/rekomendasi/{id}/tambah-destinasi', [RekomendasiController::class, 'tambahDestinasi']);
+Route::delete('/rekomendasi/{id}/hapus-destinasi', [RekomendasiController::class, 'hapusDestinasi']);
+Route::post('/rekomendasi/batalkan', [RekomendasiController::class, 'batalkan'])->name('rekomendasi.batalkan');
