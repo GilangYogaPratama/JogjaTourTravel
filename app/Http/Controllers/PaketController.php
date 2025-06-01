@@ -104,7 +104,7 @@ class PaketController extends Controller
         $paket->layanantambahan()->sync($request->id_layanantambahan ?? []);
         $paket->destinasi()->sync($request->id_destinasi ?? []);
 
-        return redirect()->route('pengelola.Paket')->with('success', 'Paket berhasil diperbarui!');
+        return redirect()->route('paket.index')->with('success', 'Paket berhasil diperbarui!');
     }
 
     /**

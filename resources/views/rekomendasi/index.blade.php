@@ -85,7 +85,7 @@
     </section>
 
     <!-- Destinations Section -->
-    <section id="destinations" class="py-10 bg-gradient-to-r from-blue-100 via-white to-blue-100 text-center" data-aos="fade-up" data-aos-duration="1000">
+    <section id="destinations" class="py-10 bg-blue-100 text-center" data-aos="fade-up" data-aos-duration="1000">
         <h3 class="text-3xl font-bold mb-10" data-aos="zoom-in" data-aos-delay="200">Destinasi Populer</h3>
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">

@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Destinasi;
 use App\Models\Rekomendasi;
+use App\Models\Transportasi;
 use Illuminate\Http\Request;
+use App\Models\LayananTambahan;
+use Illuminate\Support\Facades\DB;
 
 class RekomendasiController extends Controller
 {
@@ -74,6 +77,8 @@ class RekomendasiController extends Controller
         $totalHargaPerOrang = $gabunganDestinasi->sum('harga');
         $budgetPerOrang = session()->get('budget_per_orang', 0);
         $sisaBudget = session()->get('sisa_budget', 0);
+        $totalBudget = session()->get('total_budget', 0); // ✅ Tambahkan ini
+        $jumlahOrang = session()->get('jumlah_orang', 1);
 
         return view('rekomendasi.edit', compact(
             'semuaDestinasi',
@@ -82,7 +87,9 @@ class RekomendasiController extends Controller
             'destinasiTerpilih',
             'totalHargaPerOrang',
             'budgetPerOrang',
-            'sisaBudget'
+            'sisaBudget',
+            'totalBudget',
+            'jumlahOrang' 
         ));
     }
 
@@ -91,15 +98,59 @@ class RekomendasiController extends Controller
         $manual = session()->get('daftar_destinasi', []);
         $rekomendasi = session()->get('rekomendasi_terpilih', []);
         $semua = array_unique(array_merge($manual, $rekomendasi));
-    
+
         $jumlahOrang = session()->get('jumlah_orang', 1);
+        $budget = session()->get('total_budget', 0);
+
+        // Simpan ke tabel rekomendasi
+        $rekom = new Rekomendasi();
+        $rekom->jumlah_orang = $jumlahOrang;
+        $rekom->budget = $budget;
+        $rekom->save();
+
+        // Simpan ke tabel pivot rekomendasi_destinasi
+        $rekom->destinasi()->sync($semua);
+
+        session()->put('id_rekomendasi', $rekom->id);
+
         $totalHarga = Destinasi::whereIn('id', $semua)->sum('harga') * $jumlahOrang;
-    
-        return redirect()->route('checkout.show')->with([
+
+        return redirect()->route('rekomendasi.pesanan')->with([
             'daftar_destinasi' => $semua,
             'total_harga' => $totalHarga,
         ]);
-    }    
+    }
+
+    public function pesanan()
+    {
+        $id = session('id_rekomendasi');
+
+        if (!$id) {
+            return redirect()->route('rekomendasi.edit')->with('error', 'Data pesanan tidak ditemukan.');
+        }
+
+        $rekomendasi = Rekomendasi::with('destinasi')->findOrFail($id);
+
+        $daftarDestinasi = $rekomendasi->destinasi;
+        $jumlahOrang = $rekomendasi->jumlah_orang;
+        $totalBudget = $rekomendasi->total_budget;
+        $totalHarga = $daftarDestinasi->sum('harga') * $jumlahOrang;
+
+        // Ambil data layanan tambahan
+        $layananTambahanList = LayananTambahan::all();
+
+        // Ambil data transportasi
+        $transportasiList = Transportasi::all();
+
+        return view('rekomendasi.pesanan', compact(
+            'daftarDestinasi',
+            'jumlahOrang',
+            'totalBudget',
+            'totalHarga',
+            'layananTambahanList',
+            'transportasiList'
+        ));
+    }
 
     public function tambah(Request $request)
     {

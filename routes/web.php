@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaketController;
+use App\Http\Controllers\PesananController;
 use App\Http\Controllers\DestinasiController;
 use App\Http\Controllers\RekomendasiController;
 use App\Http\Controllers\TransportasiController;
@@ -73,3 +74,6 @@ Route::post('/rekomendasi/edit/hapus', [RekomendasiController::class, 'hapus'])-
 Route::post('/rekomendasi/{id}/tambah-destinasi', [RekomendasiController::class, 'tambahDestinasi']);
 Route::delete('/rekomendasi/{id}/hapus-destinasi', [RekomendasiController::class, 'hapusDestinasi']);
 Route::post('/rekomendasi/batalkan', [RekomendasiController::class, 'batalkan'])->name('rekomendasi.batalkan');
+Route::get('/rekomendasi/pesanan', [RekomendasiController::class, 'pesanan'])->name('rekomendasi.pesanan');
+
+Route::get('/pesanan/{id}', [PesananController::class, 'showFormPemesanan'])->name('pesanan.show');

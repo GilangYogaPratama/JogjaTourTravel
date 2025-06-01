@@ -67,7 +67,7 @@
     </section>
 
     <!-- Destinations Section -->
-    <section id="destinations" class="py-10 bg-gradient-to-r from-blue-100 via-white to-blue-100 text-center">
+    <section id="destinations" class="py-10 bg-blue-100 text-center">
         <div class="max-w-6xl mx-auto px-4">
             <!-- Judul -->
             <h2 class="text-3xl font-bold mb-4">Hasil Rekomendasi</h2>

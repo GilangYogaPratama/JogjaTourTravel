@@ -13,19 +13,10 @@ return new class extends Migration
     {
         Schema::create('rekomendasi', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('budget');
+            $table->integer('budget');
             $table->integer('jumlah_orang');
-
-            $table->unsignedBigInteger('id_destinasi');
-            $table->unsignedBigInteger('id_transportasi');
-            $table->unsignedBigInteger('id_layanantambahan');
-
-            $table->foreign('id_destinasi')->references('id')->on('destinasi');
-            $table->foreign('id_transportasi')->references('id')->on('transportasi');
-            $table->foreign('id_layanantambahan')->references('id')->on('layanantambahan');
-
             $table->timestamps();
-        });
+        });        
     }
 
     /**

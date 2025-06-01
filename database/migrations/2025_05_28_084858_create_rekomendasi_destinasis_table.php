@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::create('rekomendasi_destinasi', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('rekomendasi_id')->constrained('rekomendasi')->onDelete('cascade');
-            $table->foreignId('destinasi_id')->constrained('destinasi')->onDelete('cascade');
+            $table->unsignedBigInteger('rekomendasi_id');
+            $table->unsignedBigInteger('destinasi_id');
             $table->timestamps();
-        });        
         
+            $table->foreign('rekomendasi_id')->references('id')->on('rekomendasi')->onDelete('cascade');
+            $table->foreign('destinasi_id')->references('id')->on('destinasi')->onDelete('cascade');
+        });               
     }
 
     /**
