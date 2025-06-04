@@ -16,37 +16,39 @@ class Pesanan extends Model
         'telefon',
         'kota_asal',
         'titik_jemput',
+        'jumlah_orang',
         'id_destinasi',
         'id_transportasi',
         'id_layanantambahan',
         'id_paket',
         'id_rekomendasi',
         'status_ketersediaan',
-        'status_jadwal_fix',
+        'total_biaya',
     ];
 
-    public function Destinasi() 
+    public function destinasi()
     {
-        return $this->belongsTo('App\Models\Destinasi', 'id_destinasi');
+        return $this->belongsToMany(Destinasi::class, 'pesanan_destinasi', 'pesanan_id', 'destinasi_id');
     }
 
-    public function Transportasi() 
+    public function transportasi()
     {
-        return $this->belongsTo('App\Models\Transportasi', 'id_transportasi');
+        return $this->belongsTo(Transportasi::class, 'id_transportasi');
     }
 
-    public function LayananTambahan() 
+    public function layananTambahan()
     {
-        return $this->belongsTo('App\Models\LayananTambahan', 'id_layanantambahan');
+        return $this->belongsToMany(LayananTambahan::class, 'layanan_tambahan_pesanan', 'pesanan_id', 'id_layanantambahan');
     }
 
-    public function Paket() 
+    public function paket() 
     {
         return $this->belongsTo('App\Models\Paket', 'id_paket');
     }
 
-    public function Rekomendasi() 
+    public function rekomendasi() 
     {
         return $this->belongsTo('App\Models\Rekomendasi', 'id_rekomendasi');
     }
+
 }

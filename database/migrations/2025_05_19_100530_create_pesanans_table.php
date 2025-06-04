@@ -18,19 +18,15 @@ return new class extends Migration
             $table->string('telefon');
             $table->text('kota_asal');
             $table->string('titik_jemput');
+            $table->string('jumlah_orang');
+            $table->bigInteger('total_biaya');
 
-            $table->unsignedBigInteger('id_destinasi');
             $table->unsignedBigInteger('id_transportasi');
             $table->unsignedBigInteger('id_layanantambahan');
-            $table->unsignedBigInteger('id_paket');
             $table->unsignedBigInteger('id_rekomendasi')->nullable();
             $table->enum('status_ketersediaan', ['tersedia', 'tidak tersedia']);
-            $table->date('status_jadwal_fix');
 
-            $table->foreign('id_destinasi')->references('id')->on('destinasi');
             $table->foreign('id_transportasi')->references('id')->on('transportasi');
-            $table->foreign('id_layanantambahan')->references('id')->on('layanantambahan');
-            $table->foreign('id_paket')->references('id')->on('paket');
             $table->foreign('id_rekomendasi')->references('id')->on('rekomendasi');
 
             $table->timestamps();

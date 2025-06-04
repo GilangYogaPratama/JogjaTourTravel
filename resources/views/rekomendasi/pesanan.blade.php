@@ -101,124 +101,124 @@
                 </div>
             </div>
 
-            <!-- Formulir Data Pemesan -->
-            <div class="card shadow mb-4" data-aos="fade-up" data-aos-delay="100">
-                <div class="card-body">
-                    <strong class="card-title mb-4">🧍 Informasi Pemesan</strong>
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label for="nama" class="form-label">Nama Lengkap</label>
-                            <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan nama Anda" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="kota_asal" class="form-label">Kota Asal</label>
-                            <input type="text" class="form-control" id="kota_asal" name="kota_asal" placeholder="Contoh: Jakarta" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="jumlah_orang" class="form-label">Jumlah Orang</label>
-                            <input type="number" min="1" class="form-control" id="jumlah_orang" name="jumlah_orang" placeholder="Jumlah peserta" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="tanggal_berangkat" class="form-label">Tanggal Keberangkatan</label>
-                            <input type="date" class="form-control" id="tanggal_berangkat" name="tanggal_berangkat" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="titik_jemput" class="form-label">Titik Jemput</label>
-                            <input type="text" class="form-control" id="titik_jemput" name="titik_jemput" placeholder="Contoh: Stasiun Yogyakarta" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="telepon" class="form-label">Nomor Telepon Aktif</label>
-                            <input type="tel" class="form-control" id="telepon" name="telepon" placeholder="Contoh: 0812xxxx" pattern="08[0-9]{8,11}" required>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <form action="{{ route('konfirmasi.pesanan') }}" method="POST">
+                @csrf
 
-            <!-- Layanan Tambahan -->
-            <div class="card shadow mb-4" data-aos="fade-up" data-aos-delay="150">
-                <div class="card-body">
-                    <strong class="card-title mb-3">➕ Layanan Tambahan</strong>
-                    <div class="row">
-                        @foreach ($layananTambahanList as $lt)
-                        <div class="col-md-6">
-                            <div class="card shadow-sm mb-3">
-                                <div class="card-body">
-                                    <div class="form-check">
-                                        <input 
-                                            class="form-check-input" 
-                                            type="checkbox" 
-                                            name="id_layanantambahan[]" 
-                                            id="layanan_{{ $lt->id }}" 
-                                            value="{{ $lt->id }}">
-                                        <label class="form-check-label" for="layanan_{{ $lt->id }}">
-                                            {{ $lt->nama_layanan }}
-                                        </label>
-                                        <p class="text-muted small mt-2">Rp{{ number_format($lt->harga_layanan, 0, ',', '.') }}</p>
-                                    </div>
-                                </div>
+                <!-- Formulir Data Pemesan -->
+                <div class="card shadow mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card-body">
+                        <strong class="card-title mb-4">🧍 Informasi Pemesan</strong>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="wisatawan" class="form-label">Nama Lengkap</label>
+                                <input type="text" class="form-control" id="wisatawan" name="wisatawan" placeholder="Masukkan nama Anda" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="kota_asal" class="form-label">Kota Asal</label>
+                                <input type="text" class="form-control" id="kota_asal" name="kota_asal" placeholder="Contoh: Jakarta" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="jumlah_orang" class="form-label">Jumlah Orang</label>
+                                <input type="number" min="1" class="form-control" id="jumlah_orang" name="jumlah_orang" placeholder="Jumlah peserta" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="tanggal_keberangkatan" class="form-label">Tanggal Keberangkatan</label>
+                                <input type="date" class="form-control" id="tanggal_keberangkatan" name="tanggal_keberangkatan" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="titik_jemput" class="form-label">Titik Jemput</label>
+                                <input type="text" class="form-control" id="titik_jemput" name="titik_jemput" placeholder="Contoh: Stasiun Yogyakarta" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="telefon" class="form-label">Nomor telefon Aktif</label>
+                                <input type="tel" class="form-control" id="telefon" name="telefon" placeholder="Contoh: 0812xxxx" pattern="08[0-9]{8,11}" required>
                             </div>
                         </div>
-                        @endforeach
                     </div>
                 </div>
-            </div>
 
-            <!-- Transportasi -->
-            <div class="card shadow mb-4" data-aos="fade-up" data-aos-delay="200">
-                <div class="card-body">
-                    <strong class="card-title mb-3">🚗 Pilih Transportasi</strong>
-                    <div class="row">
-                        @foreach ($transportasiList as $transport)
-                            <div class="col-md-4 mb-4">
-                                <div class="card shadow-sm h-100 border-0 hover:shadow-xl transition transform hover:scale-105 duration-300">
-                                    @if ($transport->gambar_kendaraan)
-                                        <img src="{{ asset('storage/' . $transport->gambar_kendaraan) }}" 
-                                            class="card-img-top" 
-                                            style="height: 220px; object-fit: cover;" 
-                                            alt="{{ $transport->nama_kendaraan }}">
-                                    @else
-                                        <img src="https://via.placeholder.com/300x200?text=Gambar+Tidak+Ada" 
-                                            class="card-img-top" 
-                                            style="height: 220px; object-fit: cover;" 
-                                            alt="Tidak ada gambar">
-                                    @endif
-
-                                    <div class="card-body d-flex flex-column">
-                                        <h5 class="card-title text-primary">{{ $transport->nama_kendaraan }}</h5>
-                                        <ul class="list-unstyled small mb-3">
-                                            <li><strong>Jenis :</strong> {{ $transport->jenis_kendaraan }}</li>
-                                            <li><strong>Nomor :</strong> {{ $transport->nomor_kendaraan }}</li>
-                                            <li><strong>Sopir :</strong> {{ $transport->sopir }}</li>
-                                            <li><strong>Kapasitas :</strong> {{ $transport->kursi }} kursi</li>
-                                            <li><strong>Harga Sewa :</strong> Rp{{ number_format($transport->harga_sewa, 0, ',', '.') }}</li>
-                                        </ul>
-                                        <div class="mt-auto">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="transportasi_id" value="{{ $transport->id }}" required id="transport_{{ $transport->id }}">
-                                                <label class="form-check-label" for="transport_{{ $transport->id }}">
-                                                    Pilih Transportasi Ini
-                                                </label>
-                                            </div>
+                <!-- Layanan Tambahan -->
+                <div class="card shadow mb-4" data-aos="fade-up" data-aos-delay="150">
+                    <div class="card-body">
+                        <strong class="card-title mb-3">➕ Layanan Tambahan</strong>
+                        <div class="row">
+                            @foreach ($layananTambahanList as $lt)
+                            <div class="col-md-6">
+                                <div class="card shadow-sm mb-3">
+                                    <div class="card-body">
+                                        <div class="form-check">
+                                            <input 
+                                                class="form-check-input" 
+                                                type="checkbox" 
+                                                name="id_layanantambahan[]" 
+                                                id="layanan_{{ $lt->id }}" 
+                                                value="{{ $lt->id }}">
+                                            <label class="form-check-label" for="layanan_{{ $lt->id }}">
+                                                {{ $lt->nama_layanan }}
+                                            </label>
+                                            <p class="text-muted small mt-2">Rp{{ number_format($lt->harga_layanan, 0, ',', '.') }}</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
+                            @endforeach
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Tombol Aksi -->
-            <div class="text-right mt-5" data-aos="zoom-in" data-aos-delay="300">
-                <div class="d-grid gap-3 d-md-flex justify-content-md-end">
-                    <a href="{{ url('/') }}" class="btn btn-lg btn-outline-primary bg-white px-5 w-100 w-md-auto shadow-md">
-                        🏠 Kembali ke Beranda
-                    </a>
-                    <button type="submit" class="btn btn-lg btn-primary px-5 w-100 w-md-auto shadow-md">
-                        ✅ Konfirmasi & Pesan Sekarang
-                    </button>
+                <!-- Transportasi -->
+                <div class="card shadow mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card-body">
+                        <strong class="card-title mb-3">🚗 Pilih Transportasi</strong>
+                        <div class="row">
+                            @foreach ($transportasiList as $transport)
+                                <div class="col-md-4 mb-4">
+                                    <div class="card shadow-sm h-100 border-0 hover:shadow-xl transition transform hover:scale-105 duration-300">
+                                        @if ($transport->gambar_kendaraan)
+                                            <img src="{{ asset('storage/' . $transport->gambar_kendaraan) }}" 
+                                                class="card-img-top" 
+                                                style="height: 220px; object-fit: cover;" 
+                                                alt="{{ $transport->wisatawan_kendaraan }}">
+                                        @else
+                                            <img src="https://via.placeholder.com/300x200?text=Gambar+Tidak+Ada" 
+                                                class="card-img-top" 
+                                                style="height: 220px; object-fit: cover;" 
+                                                alt="Tidak ada gambar">
+                                        @endif
+
+                                        <div class="card-body d-flex flex-column">
+                                            <h5 class="card-title text-primary">{{ $transport->wisatawan_kendaraan }}</h5>
+                                            <ul class="list-unstyled small mb-3">
+                                                <li><strong>Jenis :</strong> {{ $transport->jenis_kendaraan }}</li>
+                                                <li><strong>Nomor :</strong> {{ $transport->nomor_kendaraan }}</li>
+                                                <li><strong>Sopir :</strong> {{ $transport->sopir }}</li>
+                                                <li><strong>Kapasitas :</strong> {{ $transport->kursi }} kursi</li>
+                                                <li><strong>Harga Sewa :</strong> Rp{{ number_format($transport->harga_sewa, 0, ',', '.') }}</li>
+                                            </ul>
+                                            <div class="mt-auto">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="transportasi_id" value="{{ $transport->id }}" required id="transport_{{ $transport->id }}">
+                                                    <label class="form-check-label" for="transport_{{ $transport->id }}">
+                                                        Pilih Transportasi Ini
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
                 </div>
-            </div>
+
+                <div class="text-right mt-5">
+                    <div class="d-grid gap-3 d-md-flex justify-content-md-end">
+                        <a href="{{ url('/') }}" class="btn btn-lg btn-outline-primary">🏠 Kembali ke Beranda</a>
+                        <button type="submit" class="btn btn-lg btn-primary">✅ Konfirmasi & Pesan Sekarang</button>
+                    </div>
+                </div>
+                
+            </form>
         </div>
     </div>
 

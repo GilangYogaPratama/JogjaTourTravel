@@ -30,4 +30,10 @@ class Destinasi extends Model
         return $this->belongsToMany(Rekomendasi::class, 'rekomendasi_destinasi')->withTimestamps;
     }
 
+    public function pesanan()
+    {
+        return $this->belongsToMany(Pesanan::class, 'pesanan_destinasi', 'destinasi_id', 'pesanan_id');
+    }
+
+
 }

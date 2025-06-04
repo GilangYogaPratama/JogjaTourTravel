@@ -26,4 +26,10 @@ class LayananTambahan extends Model
         return $this->belongsToMany(Rekomendasi::class, 'rekomendasi_layanan_tambahan');
     }
 
+    public function pesanan()
+    {
+        return $this->belongsToMany(Pesanan::class, 'layanan_tambahan_pesanan', 'layanan_tambahan_id', 'pesanan_id');
+    }
+
+
 }

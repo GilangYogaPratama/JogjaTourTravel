@@ -77,3 +77,6 @@ Route::post('/rekomendasi/batalkan', [RekomendasiController::class, 'batalkan'])
 Route::get('/rekomendasi/pesanan', [RekomendasiController::class, 'pesanan'])->name('rekomendasi.pesanan');
 
 Route::get('/pesanan/{id}', [PesananController::class, 'showFormPemesanan'])->name('pesanan.show');
+Route::post('/konfirmasi', [PesananController::class, 'konfirmasi'])->name('konfirmasi.pesanan');
+Route::post('/pesanan/store', [PesananController::class, 'store'])->name('pesanan.store');
+Route::get('/pesanan/{id}/download', [PesananController::class, 'download'])->name('pesanan.download');

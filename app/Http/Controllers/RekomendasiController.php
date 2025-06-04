@@ -133,7 +133,7 @@ class RekomendasiController extends Controller
 
         $daftarDestinasi = $rekomendasi->destinasi;
         $jumlahOrang = $rekomendasi->jumlah_orang;
-        $totalBudget = $rekomendasi->total_budget;
+        $totalBudget = $rekomendasi->budget;
         $totalHarga = $daftarDestinasi->sum('harga') * $jumlahOrang;
 
         // Ambil data layanan tambahan
