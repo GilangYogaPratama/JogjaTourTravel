@@ -13,20 +13,27 @@ use App\Models\RekomendasiDestinasi;
 
 class PesananController extends Controller
 {
-    
     public function index()
     {
-        $pesanan = Pesanan::all();
-        return view('rekomendasi.pesanan.index', [
+        // Load relasi untuk kebutuhan pengelola
+        $pesanan = Pesanan::with(['transportasi', 'destinasi', 'layananTambahan'])->get();
+
+        // Jika route berasal dari pengelola, gunakan view berbeda
+        if (request()->is('pengelola/pesanan*')) {
+            return view('pengelola.pesanan.index', [
+                'pesanan' => $pesanan
+            ]);
+        }
+
+        return view('pengelola.pesanan.index', [
             'pesanan' => $pesanan
         ]);
     }
 
     public function create()
     {
-
         $layanantambahan = LayananTambahan::all();
-        return view('rekomendasi.pesanan.create', compact('layanantambahan'));
+        return view('pengelola.pesanan.create', compact('layanantambahan'));
     }
 
     public function pesanan()
@@ -44,7 +51,6 @@ class PesananController extends Controller
         $totalBudget = $rekomendasi->total_budget;
         $totalHarga = $daftarDestinasi->sum('harga') * $jumlahOrang;
 
-
         return view('rekomendasi.pesanan', compact(
             'daftarDestinasi',
             'jumlahOrang',
@@ -58,26 +64,19 @@ class PesananController extends Controller
     {
         $id = session('id_rekomendasi');
 
-        // Ambil data dari form
         $dataDiri = $request->only([
             'wisatawan', 'kota_asal', 'jumlah_orang',
             'tanggal_keberangkatan', 'titik_jemput', 'telefon', 'total_biaya'
         ]);
 
-        // Transportasi yang dipilih
         $transportasi = Transportasi::find($request->transportasi_id);
 
-        // Layanan tambahan
         $layananTambahan = [];
         if ($request->has('id_layanantambahan')) {
             $layananTambahan = LayananTambahan::whereIn('id', $request->id_layanantambahan)->get();
         }
 
-        // Ambil daftar destinasi dari hasil rekomendasi sebelumnya
-        // (pastikan id_rekomendasi disimpan atau dikirim juga)
-
         $rekomendasi = Rekomendasi::with('destinasi')->findOrFail($id);
-
         $daftarDestinasi = $rekomendasi->destinasi;
         $rekomendasiId = $request->input('rekomendasi_id');
 
@@ -103,15 +102,12 @@ class PesananController extends Controller
             'status_ketersediaan' => 'tidak tersedia',
         ]);
 
-        // Simpan ke pivot pesanan_destinasi
         $idDestinasi = $request->input('destinasi_id', []);
         $pesanan->destinasi()->attach($idDestinasi);
 
-        // Simpan ke pivot layanan_tambahan_pesanan
         $idLayananTambahan = $request->input('id_layanantambahan', []);
         $pesanan->layananTambahan()->attach($idLayananTambahan);
 
-        // Load relasi sebelum dikirim ke view
         $pesanan->load(['destinasi', 'transportasi', 'layananTambahan']);
 
         $jumlahOrang = $pesanan->jumlah_orang;
@@ -131,7 +127,6 @@ class PesananController extends Controller
 
         $totalAkhir = $totalDestinasiSemuaOrang + $totalLayananTambahan + $hargaTransportasi;
 
-
         return view('rekomendasi.pembayaran', compact(
             'pesanan',
             'jumlahOrang',
@@ -144,14 +139,12 @@ class PesananController extends Controller
             'totalAkhir',
             'dataDiri'
         ));
-        
     }
 
     public function download($id)
     {
         $pesanan = Pesanan::with(['transportasi', 'layananTambahan', 'destinasi'])->findOrFail($id);
 
-        // Hitung ulang total
         $jumlahOrang = $pesanan->jumlah_orang;
         $totalDestinasiSemuaOrang = $pesanan->destinasi->sum('harga') * $jumlahOrang;
         $totalLayananTambahan = $pesanan->layananTambahan->sum(function ($lt) use ($jumlahOrang) {
@@ -171,6 +164,6 @@ class PesananController extends Controller
             'totalAkhir'
         ));
 
-        return $pdf->download('Detail_Pesanan_' . $pesanan->id . '.pdf');
+        return $pdf->stream('Detail_Pesanan_' . $pesanan->id . '.pdf');
     }
 }

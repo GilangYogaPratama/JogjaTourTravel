@@ -80,3 +80,8 @@ Route::get('/pesanan/{id}', [PesananController::class, 'showFormPemesanan'])->na
 Route::post('/konfirmasi', [PesananController::class, 'konfirmasi'])->name('konfirmasi.pesanan');
 Route::post('/pesanan/store', [PesananController::class, 'store'])->name('pesanan.store');
 Route::get('/pesanan/{id}/download', [PesananController::class, 'download'])->name('pesanan.download');
+
+//Pesanan
+Route::get('/pengelola/pesanan/{id}', [PesananController::class, 'show'])->name('pengelola.pesanan.show');
+Route::get('/pengelola/pesanan/{id}/cetak', [PesananController::class, 'cetak'])->name('pengelola.pesanan.cetak');
+Route::get('/pesanan', [PesananController::class, 'index'])->name('pesanan.index');

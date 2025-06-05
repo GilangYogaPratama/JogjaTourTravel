@@ -189,6 +189,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+          <li class="nav-item">
+              <a href="{{ route('pesanan.index') }}" class="nav-link {{ request()->routeIs('pesanan.*') ? 'active' : '' }}">
+                  <i class="nav-icon fas fa-box" style="color:aliceblue"></i>
+                  <p style="color:aliceblue">Pesanan</p>
+              </a>
+          </li>
           
           <li class="nav-item">
             <a href="{{ route('destinasi.index') }}" class="nav-link {{ request()->routeIs('destinasi.*') ? 'active' : '' }}">

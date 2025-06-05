@@ -3,98 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <title>Invoice</title>
-    <style>
+        <style>
         body {
             font-family: Arial, sans-serif;
             color: #000;
             padding: 40px;
         }
-        .header, .footer {
+
+        .flex {
             display: flex;
             justify-content: space-between;
+            flex-wrap: wrap;
         }
-        .section {
-            margin-top: 30px;
+
+        .header,
+        .section,
+        .footer {
+            margin-bottom: 30px;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
         }
-        th, td {
+
+        th,
+        td {
             padding: 8px 10px;
             border: 1px solid #ccc;
             text-align: left;
         }
+
         th {
-            background-color: #00BFFF;
+            background-color: rgb(175, 174, 172);
             color: #fff;
         }
+
         .total-row td {
             font-weight: bold;
         }
+
         .right {
             text-align: right;
         }
+
         .bold {
             font-weight: bold;
+        }
+
+        h2,
+        h3,
+        p {
+            margin: 0;
+            padding: 0;
+        }
+
+        h3 {
+            margin-bottom: 5px;
+        }
+
+        p {
+            margin: 5px 0;
+        }
+
+        img {
+            height: 60px;
+        }
+
+        /* Tambahan untuk tabel tanpa border */
+        .no-border td {
+            border: none !important;
+            padding: 4px 0;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div>
-            <h2>KakaKiky Media</h2>
-            <p>Jl. Perdamaian Raya No. 6<br>
-            ☎ 082219168068<br>
-            ✉ kakakiky.id@gmail.com<br>
-            🌐 https://www.kakakiky.id</p>
-        </div>
-        <div>
-            <h1>INVOICE</h1>
-            <p><strong>Invoice #:</strong> INV-{{ $pesanan->id }}<br>
-            <strong>Invoice Date:</strong> {{ \Carbon\Carbon::parse($pesanan->created_at)->format('d M Y') }}<br>
-            <strong>Due Date:</strong> {{ \Carbon\Carbon::parse($pesanan->created_at)->addDays(1)->format('d M Y') }}</p>
-        </div>
+
+    <!-- Header -->
+    <div class="header flex">
+        <table class="no-border">
+            <tr>
+                <!-- Kolom Info Perusahaan -->
+                <td style="vertical-align: top;">
+                    <h2 style="margin: 0;">Jogja Tour & Travel</h2>
+                    <p>
+                        Klajuran, Tanjungharjo, Kec. Nanggulan,<br>
+                        Kulon Progo, Yogyakarta 55671<br>
+                        082219168068<br>
+                        JogjaTourTravel@gmail.com<br>
+                        www.JogjaTourTravel.com
+                    </p>
+                </td>
+                <!-- Kolom Logo -->
+                <td style="width: 80px; vertical-align: top;">
+                    <img src="{{ public_path('storage/images/JTT_LOGO.png') }}" alt="Jogja Tour & Travel">
+                </td>
+            </tr>
+        </table>
     </div>
 
-    <div class="section">
-        <h3>Bill To:</h3>
-        <p>{{ $pesanan->wisatawan }}<br>
-        Kota Asal: {{ $pesanan->kota_asal }}</p>
-    </div>
+    <table class="no-border" style="margin-bottom: 30px;">
+        <tr>
+            <!-- Kolom Kiri: Data Pemesan -->
+            <td style="vertical-align: top; width: 50%;">
+                <h3 style="margin-bottom: 5px;">Pemesan</h3>
+                <p>
+                    {{ $pesanan->wisatawan }}<br>
+                    Kota Asal : {{ $pesanan->kota_asal }}<br>
+                    No. Telefon : {{ $pesanan->telefon }}
+                </p>
+            </td>
 
+            <!-- Kolom Kanan: Informasi Invoice -->
+            <td style="vertical-align: top; text-align: right; width: 50%;">
+                <p>
+                    <strong>No. Pesanan :</strong> JT-INV-{{ $pesanan->id }}<br>
+                    <strong>Invoice Date :</strong> {{ \Carbon\Carbon::parse($pesanan->created_at)->format('d M Y') }}<br>
+                    <strong>Due Date :</strong> {{ \Carbon\Carbon::parse($pesanan->created_at)->addDays(1)->format('d M Y') }}
+                </p>
+            </td>
+        </tr>
+    </table>
+
+    <!-- Table -->
     <div class="section">
         <table>
             <thead>
                 <tr>
-                    <th>Item Description</th>
-                    <th class="right">Unit Price</th>
-                    <th class="right">Qty</th>
-                    <th class="right">Amount</th>
+                    <th>Item</th>
+                    <th class="right">Harga</th>
+                    <th class="right">Satuan</th>
+                    <th class="right">Jumlah biaya</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($pesanan->destinasi as $d)
-                <tr>
-                    <td>{{ $d->nama_destinasi }}</td>
-                    <td class="right">Rp{{ number_format($d->harga, 0, ',', '.') }}</td>
-                    <td class="right">1</td>
-                    <td class="right">Rp{{ number_format($d->harga, 0, ',', '.') }}</td>
-                </tr>
+                    <tr>
+                        <td>{{ $d->nama_destinasi }}</td>
+                        <td class="right">Rp{{ number_format($d->harga, 0, ',', '.') }}</td>
+                        <td class="right">{{ $pesanan->jumlah_orang }}</td>
+                        <td class="right">Rp{{ number_format($d->harga * $jumlahOrang, 0, ',', '.') }}</td>
+                    </tr>
                 @endforeach
 
                 @foreach($pesanan->layananTambahan as $lt)
-                <tr>
-                    <td>{{ $lt->nama_layanan }}</td>
-                    <td class="right">
-                        Rp{{ number_format(str_contains(strtolower($lt->nama_layanan), 'catering') ? $lt->harga_layanan * $jumlahOrang : $lt->harga_layanan, 0, ',', '.') }}
-                    </td>
-                    <td class="right">1</td>
-                    <td class="right">
-                        Rp{{ number_format(str_contains(strtolower($lt->nama_layanan), 'catering') ? $lt->harga_layanan * $jumlahOrang : $lt->harga_layanan, 0, ',', '.') }}
-                    </td>
-                </tr>
+                    @php
+                        $isCatering = str_contains(strtolower($lt->nama_layanan), 'catering');
+                        $qty = $isCatering ? $jumlahOrang : 1;
+                        $subtotal = $lt->harga_layanan * $qty;
+                    @endphp
+                    <tr>
+                        <td>{{ $lt->nama_layanan }}</td>
+                        <td class="right">Rp{{ number_format($lt->harga_layanan, 0, ',', '.') }}</td>
+                        <td class="right">{{ $qty }}</td>
+                        <td class="right">Rp{{ number_format($subtotal, 0, ',', '.') }}</td>
+                    </tr>
                 @endforeach
 
                 <tr>
@@ -113,17 +176,26 @@
         </table>
     </div>
 
+    <!-- Footer -->
     <div class="section">
-        <p><strong>Payment Method:</strong><br>
-        Account: 1929319239<br>
-        A/C Name: M. Rizki Riswandi<br>
-        Bank Details: Bank Syariah Indonesia</p>
-
-        <p><strong>Terms & Conditions:</strong><br>
-        COD</p>
-
-        <p><strong>Notes:</strong><br>
-        Terima kasih sudah melakukan pemesanan desain di KakaKiky Media.</p>
+        <p>
+            <strong>Perhatian!</strong><br>
+            Sebelum melakukan pembayaran, silahkan melakukan konfirmasi terlebih dahulu<br>
+            melalui nomor whatsapp kami yang terdapat pada website atau nomor dibawah ini :<br>
+            Eko Budi Ratno : 0812-4829-3513<br>
+            Gilang Yoga Pratama : 0813-2500-1074
+        </p>
     </div>
+
+    <div class="section">
+        <p>
+            <strong>Metode Pembayaran</strong><br>
+            No.Rekening: 1929319239<br>
+            A.N: Eko Budi Ratno<br>
+            Bank: Bank Negara Indonesia (BNI)
+        </p>
+        <p>Terima kasih telah mempercayakan perjalanan Anda kepada kami.</p>
+    </div>
+
 </body>
 </html>
