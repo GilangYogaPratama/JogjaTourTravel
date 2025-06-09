@@ -10,7 +10,7 @@
         <div class="row mb-2">
           <div class="col-sm-6">
             <h1 class="m-0">
-              <i class="nav-icon fas fa-map-marker-alt"></i>&nbsp;Destinasi
+              <i class="nav-icon fa-solid fa-map-location-dot"></i>&nbsp;Destinasi
             </h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
@@ -26,13 +26,11 @@
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
-        <div class="card-header text-right">
-          <a href="{{ route('createDestinasi') }}" class="btn btn-primary" role="button">
-            <i class="fas fa-plus"></i> Tambah Destinasi
-          </a>
-        </div>
         <div class="card">
           <div class="card-body">
+            <a href="{{ route('createDestinasi') }}" class="btn btn-dark mb-3" role="button">
+              <i class="fas fa-plus"></i> Tambah Destinasi
+            </a>
           <table class="table table-hover">
             <thead class="text-center">
               <tr>

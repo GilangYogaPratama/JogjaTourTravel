@@ -26,13 +26,11 @@
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
-        <div class="card-header text-right">
-          <a href="{{ route('createTransportasi') }}" class="btn btn-primary" role="button">
-            <i class="fas fa-plus"></i> Tambah Transportasi
-          </a>
-        </div>
         <div class="card">
           <div class="card-body">
+            <a href="{{ route('createTransportasi') }}" class="btn btn-dark mb-3" role="button">
+              <i class="fas fa-plus"></i> Tambah Transportasi
+            </a>
             <table class="table table-hover text-center">
               <thead>
                 <tr>

@@ -51,4 +51,10 @@ class Pesanan extends Model
         return $this->belongsTo('App\Models\Rekomendasi', 'id_rekomendasi');
     }
 
+    public function pembayaran()
+    {
+        return $this->hasOne(Pembayaran::class, 'id_pesanan');
+    }
+
+
 }

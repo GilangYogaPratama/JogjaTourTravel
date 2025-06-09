@@ -8,18 +8,25 @@ use Illuminate\Database\Eloquent\Model;
 class Pembayaran extends Model
 {
     use HasFactory;
-    protected $table = 'Rekomendasi';
+    protected $table = 'Pembayaran';
 
     protected $fillable = [
         'status_pembayaran',
         'tanggal_pembayaran',
         'tanggal_konfirmasi',
-        'buktibukti_pembayaran',
+        'bukti_pembayaran',
         'id_pesanan',
     ];
 
-    public function Pesanan() 
+    // Model Pembayaran
+    public function pesanan()
     {
-        return $this->belongsTo('App\Models\Pesanan', 'id_pesanan');
+        return $this->belongsTo(Pesanan::class, 'id_pesanan');
     }
+
+    public function getIsLunasAttribute()
+    {
+        return !empty($this->bukti_pembayaran);
+    }
+
 }

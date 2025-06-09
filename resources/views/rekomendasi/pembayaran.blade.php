@@ -197,11 +197,14 @@
                     Download detail pesanan
                 </a>
 
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Silakan upload bukti pembayaran</label>
-                    <input type="file" class="w-full border rounded-md p-2">
-                </div>
-                <button class="w-full bg-blue-600 text-white py-2 rounded-md">Submit dokumen</button>
+                <form action="{{ route('pembayaran.uploadBukti', $pesanan->id) }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Silakan upload bukti pembayaran</label>
+                        <input type="file" name="bukti_pembayaran" class="w-full border rounded-md p-2" required>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md mt-4">Submit dokumen</button>
+                </form>
             </div>
 
         </div>
@@ -223,6 +226,20 @@
     <!-- AOS JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script>AOS.init({ duration: 1000, once: true });</script>
+
+    {{-- Tambahkan SweetAlert CDN --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @if(Session::has('upload_success'))
+    <script>
+        Swal.fire({
+            title: 'Berhasil!',
+            text: 'Bukti pembayaran berhasil diupload.',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
+    </script>
+    @endif
 
 </body>
 </html>

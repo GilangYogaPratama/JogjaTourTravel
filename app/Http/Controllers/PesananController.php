@@ -16,7 +16,9 @@ class PesananController extends Controller
     public function index()
     {
         // Load relasi untuk kebutuhan pengelola
-        $pesanan = Pesanan::with(['transportasi', 'destinasi', 'layananTambahan'])->get();
+        $pesanan = Pesanan::with(['pembayaran', 'transportasi', 'destinasi', 'layananTambahan'])
+                ->orderBy('created_at', 'desc') // urut berdasarkan waktu terbaru
+                ->get();
 
         // Jika route berasal dari pengelola, gunakan view berbeda
         if (request()->is('pengelola/pesanan*')) {
@@ -166,4 +168,34 @@ class PesananController extends Controller
 
         return $pdf->stream('Detail_Pesanan_' . $pesanan->id . '.pdf');
     }
+
+    public function konfirmasiSukses($id)
+    {
+        $pesanan = Pesanan::with('transportasi')->findOrFail($id);
+        return view('pesanan.konfirmasi', compact('pesanan'));
+    }
+
+    public function cetakKuitansi($id)
+    {
+        $pesanan = Pesanan::with('pembayaran')->findOrFail($id);
+
+        if (!$pesanan->pembayaran || !$pesanan->pembayaran->bukti_pembayaran) {
+            abort(403, 'Pesanan belum lunas, tidak bisa mencetak kuitansi.');
+        }
+
+        $pdf = PDF::loadView('pdf.kuitansi', compact('pesanan'));
+
+        return $pdf->stream('kuitansi-pesanan-'.$pesanan->id.'.pdf');
+    }
+
+    public function arsip()
+    {
+        $pesanan = Pesanan::with('pembayaran')->orderBy('created_at', 'desc')->get();
+    
+        $pdf = Pdf::loadView('pdf.arsip_pesanan', compact('pesanan'))->setPaper('a4', 'landscape');
+    
+        return $pdf->stream('arsip-pesanan.pdf');
+    }
+
+
 }

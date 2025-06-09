@@ -13,8 +13,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome-free/css/all.min.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('assets/dist/css/adminlte.min.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">>
@@ -191,37 +195,37 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
           <li class="nav-item">
-              <a href="{{ route('pesanan.index') }}" class="nav-link {{ request()->routeIs('pesanan.*') ? 'active' : '' }}">
-                  <i class="nav-icon fas fa-box" style="color:aliceblue"></i>
-                  <p style="color:aliceblue">Pesanan</p>
-              </a>
+            <a href="{{ route('pesanan.index') }}" class="nav-link {{ request()->routeIs('pesanan.*') ? 'active' : '' }}">
+              <i class="fa-solid fa-calendar nav-icon text-white"></i>
+              <p class="text-white">Pesanan</p>
+            </a>
           </li>
-          
+
           <li class="nav-item">
             <a href="{{ route('destinasi.index') }}" class="nav-link {{ request()->routeIs('destinasi.*') ? 'active' : '' }}">
-              <i class="nav-icon fas fa-map-marker-alt" style="color:aliceblue"></i>
-              <p style="color:aliceblue">Destinasi</p>
+              <i class="fa-solid fa-map-location-dot nav-icon text-white"></i>
+              <p class="text-white">Destinasi</p>
             </a>
           </li>
 
           <li class="nav-item">
             <a href="{{ route('transportasi.index') }}" class="nav-link {{ request()->routeIs('transportasi.*') ? 'active' : '' }}">
-              <i class="nav-icon fas fa-bus" style="color:aliceblue"></i>
-              <p style="color:aliceblue">Transportasi</p>
+              <i class="fa-solid fa-bus nav-icon text-white"></i>
+              <p class="text-white">Transportasi</p>
             </a>
           </li>
 
           <li class="nav-item">
             <a href="{{ route('layanantambahan.index') }}" class="nav-link {{ request()->routeIs('layanantambahan.*') ? 'active' : '' }}">
-              <i class="nav-icon fas fa-concierge-bell" style="color:aliceblue"></i>
-              <p style="color:aliceblue">Layanan Tambahan</p>
+              <i class="fa-solid fa-bell-concierge nav-icon text-white"></i>
+              <p class="text-white">Layanan Tambahan</p>
             </a>
           </li>
 
           <li class="nav-item">
             <a href="{{ route('paket.index') }}" class="nav-link {{ request()->routeIs('paket.*') ? 'active' : '' }}">
-              <i class="nav-icon fas fa-box" style="color:aliceblue"></i>
-              <p style="color:aliceblue">Paket</p>
+              <i class="fa-solid fa-box nav-icon text-white"></i>
+              <p class="text-white">Paket</p>
             </a>
           </li>
 

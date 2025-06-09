@@ -189,6 +189,7 @@
                                         <div class="card-body d-flex flex-column">
                                             <h5 class="card-title text-primary">{{ $transport->wisatawan_kendaraan }}</h5>
                                             <ul class="list-unstyled small mb-3">
+                                                <b style="font-size:x-large;">{{ $transport->nama_kendaraan }}</b>
                                                 <li><strong>Jenis :</strong> {{ $transport->jenis_kendaraan }}</li>
                                                 <li><strong>Nomor :</strong> {{ $transport->nomor_kendaraan }}</li>
                                                 <li><strong>Sopir :</strong> {{ $transport->sopir }}</li>

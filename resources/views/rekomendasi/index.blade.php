@@ -135,11 +135,13 @@
             
             <br>
             
-            <button class="flex items-center bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-full transition duration-300 shadow-lg transform hover:scale-105"
+            <a href="https://wa.me/6281325001074?text=Saya%20ingin%20bertanya%20bagaimana%20cara%20melakukan%20pemesanan?" 
+                target="_blank" 
+                class="flex items-center bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-full transition duration-300 shadow-lg transform hover:scale-105"
                 data-aos="zoom-in-down">
-                <img src="https://cdn-icons-png.flaticon.com/512/3669/3669725.png" alt="Icon" class="h-6 w-6 mr-3">
-                Hubungi Kami via WhatsApp
-            </button>
+                    <img src="https://cdn-icons-png.flaticon.com/512/3669/3669725.png" alt="Icon" class="h-6 w-6 mr-3">
+                    Hubungi Kami via WhatsApp
+            </a>
         </div>
     </section>
 

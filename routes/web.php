@@ -3,7 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaketController;
 use App\Http\Controllers\PesananController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DestinasiController;
+use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\RekomendasiController;
 use App\Http\Controllers\TransportasiController;
 use App\Http\Controllers\LayananTambahanController;
@@ -76,12 +78,21 @@ Route::delete('/rekomendasi/{id}/hapus-destinasi', [RekomendasiController::class
 Route::post('/rekomendasi/batalkan', [RekomendasiController::class, 'batalkan'])->name('rekomendasi.batalkan');
 Route::get('/rekomendasi/pesanan', [RekomendasiController::class, 'pesanan'])->name('rekomendasi.pesanan');
 
-Route::get('/pesanan/{id}', [PesananController::class, 'showFormPemesanan'])->name('pesanan.show');
+//Pesanan
 Route::post('/konfirmasi', [PesananController::class, 'konfirmasi'])->name('konfirmasi.pesanan');
 Route::post('/pesanan/store', [PesananController::class, 'store'])->name('pesanan.store');
 Route::get('/pesanan/{id}/download', [PesananController::class, 'download'])->name('pesanan.download');
-
-//Pesanan
 Route::get('/pengelola/pesanan/{id}', [PesananController::class, 'show'])->name('pengelola.pesanan.show');
 Route::get('/pengelola/pesanan/{id}/cetak', [PesananController::class, 'cetak'])->name('pengelola.pesanan.cetak');
 Route::get('/pesanan', [PesananController::class, 'index'])->name('pesanan.index');
+Route::get('/pesanan/verifikasi/{id}', [PesananController::class, 'verifikasi'])->name('pesanan.verifikasi');
+Route::get('/pesanan/{id}/sukses', [PesananController::class, 'konfirmasiSukses'])->name('pesanan.sukses');
+Route::get('/pesanan/{id}/kuitansi', [PesananController::class, 'cetakKuitansi'])->name('pesanan.kuitansi');
+Route::get('/pesanan/arsip', [PesananController::class, 'arsip'])->name('pesanan.arsip');
+
+//Pembayaran
+Route::post('/pesanan/{id}/upload-bukti', [PembayaranController::class, 'uploadBukti'])->name('pembayaran.uploadBukti');
+Route::get('/pembayaran/verifikasi/{id}', [PembayaranController::class, 'verifikasi'])->name('pembayaran.verifikasi');
+Route::put('/pembayaran/konfirmasi/{id}', [PembayaranController::class, 'konfirmasi'])->name('pembayaran.konfirmasi');
+Route::post('/pembayaran/upload/{id}', [PembayaranController::class, 'uploadBukti'])->name('pembayaran.upload');
+Route::post('/pembayaran/upload/manual/{pesanan}', [PembayaranController::class, 'uploadManual'])->name('pembayaran.uploadManual');

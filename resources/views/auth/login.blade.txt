@@ -1,18 +1,16 @@
 @extends('adminlte.layouts.auth')
 
 @section('content')
-<body class="hold-transition login-page" style="background: linear-gradient(to right, #3b82f6, #33a1ea);">
+<body class="hold-transition login-page bg-gradient-to-r from-blue-500 to-purple-600 min-h-screen flex items-center justify-center">
     <div class="login-box">
-      <div class="login-logo">
-        <div class="flex items-center space-x-3">
-          <img src="{{ asset('storage/images/JTT.png') }}" alt="Logo" style="width: 80%;">
-        </div>
-      </div>
       <!-- /.login-logo -->
       <div class="card">
         <div class="card-body login-card-body">
-          <p>Masukkan email dan password anda</p>
-          
+          <div class="login-logo">
+        <img src="https://www.kemdikbud.go.id/main/files/large/83790f2b43f00be" alt="Logo" style="width: 30%;">
+        <p><b>SMA DANANTARA INDONESIA</b></p>
+      </div>
+          <p class="login-box-msg">Silahkan masukkan akun anda</p>
 
           <form action="{{ route('login') }}" method="post">
             @csrf
@@ -42,22 +40,33 @@
                 </span>
               @enderror
             </div>
-            <div class="row align-items-center">
-              <!-- Tombol Login -->
-              <div class="col-6">
-                <button type="submit" class="btn btn-primary btn-block d-flex align-items-center justify-content-center">
-                  <i class="fas fa-paper-plane mr-2"></i> {{ __('Login') }}
-                </button>
+            <div class="row">
+              <div class="col-8">
+                <div class="icheck-primary">
+                  <input type="checkbox" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }}>
+                  <label for="remember">
+                    {{ __('Ingat saya') }}
+                  </label>
+                </div>
               </div>
-
-              <!-- Tombol Kembali -->
-              <div class="col-6 text-right">
-                <a href="{{ url('/') }}" class="text-sm text-muted text-decoration-none hover:text-primary">
-                  ← Kembali ke Beranda
-                </a>
+              <!-- /.col -->
+              <div class="col-4">
+                <button type="submit" class="btn btn-primary btn-block">{{ __('Login') }}</button>
               </div>
+              <!-- /.col -->
             </div>
           </form>
+          <!-- /.social-auth-links -->
+          @if (Route::has('password.request'))
+          <p class="mb-1">
+            <a href="{{ route('password.request') }}">{{ __('Forgot Your Password?') }}</a>
+          </p>
+          @endif
+          @if (Route::has('register'))
+          <p class="mb-0">
+            <a href="{{ route('register') }}" class="text-center">{{ __('Register') }}</a>
+          </p>
+          @endif
         </div>
         <!-- /.login-card-body -->
       </div>

@@ -13,9 +13,6 @@ return new class extends Migration
     {
         Schema::create('pembayaran', function (Blueprint $table) {
             $table->id();
-            $table->boolean('status_pembayaran');
-            $table->dateTime('tanggal_pembayaran');
-            $table->dateTime('tanggal_konfirmasi');
             $table->string('bukti_pembayaran');
             $table->unsignedBigInteger('id_pesanan');
 

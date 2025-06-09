@@ -10,7 +10,7 @@
         <div class="row mb-2">
           <div class="col-sm-6">
             <h1 class="m-0">
-              <i class="nav-icon fas fa-map-marker-alt"></i>&nbsp;Destinasi
+              <i class="nav-icon fa-solid fa-map-location-dot"></i>&nbsp;Destinasi
             </h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
