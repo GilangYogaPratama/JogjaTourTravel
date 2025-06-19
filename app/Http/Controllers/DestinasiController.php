@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Destinasi;
 use Illuminate\Http\Request;
+use App\Models\KategoriDestinasi;
 use Illuminate\Support\Facades\Storage;
 
 class DestinasiController extends Controller
@@ -13,13 +14,12 @@ class DestinasiController extends Controller
      */
     public function index()
     {
-        $destinasi = Destinasi::all();
+        // Eager load relasi kategori untuk efisiensi query
+        $destinasi = Destinasi::with('kategori')->get();
+
         return view('pengelola.Destinasi.index', [
             'destinasi' => $destinasi
         ]);
-
-        return view('pengelola.Destinasi.index', ['destinasi' => $destinasi]);
-
     }
 
     public function showwisatawan()
@@ -41,7 +41,8 @@ class DestinasiController extends Controller
      */
     public function create()
     {
-        return view('pengelola.destinasi.create');
+        $kategoriList = KategoriDestinasi::all();
+        return view('pengelola.destinasi.create', compact('kategoriList'));
     }
 
     /**
@@ -56,14 +57,15 @@ class DestinasiController extends Controller
             'harga' => 'required|integer',
             'rating' => 'required|numeric|between:0,5',
             'gambar_wisata' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'kategori_id' => 'required|exists:kategori_destinasi,id',
         ]);
+        
 
         if ($request->hasFile('gambar_wisata')) {
             $path = $request->file('gambar_wisata')->store('images', 'public');
-            $validatedData['gambar_wisata'] = $path; // Simpan nama file di DB
+            $validatedData['gambar_wisata'] = $path;
         }
 
-        // Simpan hanya sekali
         Destinasi::create($validatedData);
 
         return redirect(route('Destinasi'))->with('success', 'Destinasi berhasil ditambahkan!');
@@ -83,9 +85,9 @@ class DestinasiController extends Controller
     public function edit(string $id)
     {
         $destinasi = Destinasi::findOrFail($id);
-        return view('pengelola.destinasi.edit', [
-            'destinasi' => $destinasi
-        ]);
+        $kategoriList = KategoriDestinasi::all();
+
+        return view('pengelola.destinasi.edit', compact('destinasi', 'kategoriList'));
     }
 
     /**
@@ -100,25 +102,24 @@ class DestinasiController extends Controller
             'harga' => 'required|integer',
             'rating' => 'required|numeric',
             'gambar_wisata' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'kategori_id' => 'required|exists:kategori_destinasi,id',
         ]);
-    
+
         $destinasi = Destinasi::findOrFail($id);
-    
+
         if ($request->hasFile('gambar_wisata')) {
-            // Hapus gambar lama jika ada
             if ($destinasi->gambar_wisata && Storage::disk('public')->exists($destinasi->gambar_wisata)) {
                 Storage::disk('public')->delete($destinasi->gambar_wisata);
             }
-    
-            // Simpan gambar baru
+
             $path = $request->file('gambar_wisata')->store('images', 'public');
             $validatedData['gambar_wisata'] = $path;
         } else {
             $validatedData['gambar_wisata'] = $destinasi->gambar_wisata;
         }
-    
+
         $destinasi->update($validatedData);
-    
+
         return redirect(route('Destinasi'))->with('success', 'Destinasi berhasil diperbarui!');
     }
 

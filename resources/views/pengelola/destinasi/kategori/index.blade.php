@@ -33,6 +33,10 @@
               <i class="fas fa-plus"></i> Tambah Kategori
             </a>
 
+            <a href="{{ route('destinasi.index') }}" class="btn btn-outline-dark mb-3">
+              <i class="fa fa-arrow-left"></i> Kembali
+            </a>            
+
             @if (session('success'))
               <div class="alert alert-success">
                 {{ session('success') }}

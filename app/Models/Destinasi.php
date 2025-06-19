@@ -17,6 +17,7 @@ class Destinasi extends Model
         'harga',
         'rating',
         'gambar_wisata',
+        'kategori_id',
     ];
 
     // app/Models/Destinasi.php
@@ -35,5 +36,9 @@ class Destinasi extends Model
         return $this->belongsToMany(Pesanan::class, 'pesanan_destinasi', 'destinasi_id', 'pesanan_id');
     }
 
+    public function kategori()
+    {
+        return $this->belongsTo(KategoriDestinasi::class, 'kategori_id');
+    }
 
 }

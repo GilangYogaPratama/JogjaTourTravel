@@ -57,7 +57,9 @@
                 <td> {{ $destinasi->deskripsi }}</td>
                 <td class="text-center"> {{ $destinasi->harga }}</td>
                 <td class="text-center"> {{ $destinasi->rating }}</td>
-                <td>Kategori</td>
+                <td class="text-center">
+                  {{ $destinasi->kategori ? $destinasi->kategori->nama_kategori : '-' }}
+                </td>
                 <td>
                   <a href="{{ Storage::url($destinasi->gambar_wisata) }}" target="_blank">
                     <img src="{{ Storage::url($destinasi->gambar_wisata) }}" alt="Gambar Wisata" width="100">

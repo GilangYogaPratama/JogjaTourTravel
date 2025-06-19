@@ -57,6 +57,18 @@
                   </div>
 
                   <div class="form-group">
+                      <label for="kategori_id">Kategori</label>
+                      <select name="kategori_id" id="kategori_id" class="form-control" required>
+                          <option value="">-- Pilih Kategori --</option>
+                          @foreach ($kategoriList as $kategori)
+                              <option value="{{ $kategori->id }}" {{ old('kategori_id', $destinasi->kategori_id ?? '') == $kategori->id ? 'selected' : '' }}>
+                                  {{ $kategori->nama_kategori }}
+                              </option>
+                          @endforeach
+                      </select>
+                  </div>
+
+                  <div class="form-group">
                       <label for="gambar_wisata">Gambar</label>
                       <input type="file" name="gambar_wisata" id="gambar_wisata" class="form-control">
                       @if($destinasi->gambar_wisata)

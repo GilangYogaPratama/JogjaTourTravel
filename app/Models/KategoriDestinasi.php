@@ -9,9 +9,15 @@ class KategoriDestinasi extends Model
 {
     use HasFactory;
 
-    protected $table = 'kategori_destinasi'; // opsional jika sesuai konvensi
+    protected $table = 'kategori_destinasi'; // optional, karena defaultnya sudah sesuai
 
     protected $fillable = [
-        'nama_kategori', // agar mass-assignment bisa dilakukan
+        'nama_kategori',
     ];
+
+    public function destinasi()
+    {
+        return $this->hasMany(Destinasi::class, 'kategori_id');
+    }
+
 }

@@ -22,25 +22,61 @@ class RekomendasiController extends Controller
         $jumlahOrang = $request->jumlah_orang;
         $budgetPerOrang = $totalBudget / $jumlahOrang;
 
-        // Ambil semua destinasi dan hitung rasio rating/harga
-        $destinasiSemua = Destinasi::all()->map(function ($destinasi) {
+        $allDestinasi = Destinasi::with('kategori')->get()->map(function ($destinasi) {
             $destinasi->rasio = $destinasi->harga > 0 ? $destinasi->rating / $destinasi->harga : 0;
             return $destinasi;
         });
 
-        $destinasiTerurut = $destinasiSemua->sortByDesc('rasio')->values();
+        // Urutkan berdasarkan rasio tertinggi
+        $destinasiByRasio = $allDestinasi->sortByDesc('rasio')->values();
 
+        $kategoriTersedia = $destinasiByRasio->pluck('kategori.nama_kategori')->unique()->toArray();
+        $kategoriYangSudahDipakai = [];
         $destinasiTerpilih = [];
         $sisaBudget = $budgetPerOrang;
 
-        foreach ($destinasiTerurut as $destinasi) {
-            if ($destinasi->harga <= $sisaBudget) {
-                $destinasiTerpilih[] = $destinasi;
-                $sisaBudget -= $destinasi->harga;
+        $sudahDipakaiId = [];
+
+        while (true) {
+            $found = false;
+
+            foreach ($destinasiByRasio as $destinasi) {
+                $kategoriDestinasi = $destinasi->kategori->nama_kategori ?? 'Tidak Ada';
+
+                if (
+                    !in_array($kategoriDestinasi, $kategoriYangSudahDipakai) &&
+                    $destinasi->harga <= $sisaBudget &&
+                    !in_array($destinasi->id, $sudahDipakaiId)
+                ) {
+                    $destinasiTerpilih[] = $destinasi;
+                    $kategoriYangSudahDipakai[] = $kategoriDestinasi;
+                    $sudahDipakaiId[] = $destinasi->id;
+                    $sisaBudget -= $destinasi->harga;
+                    $found = true;
+                    break; // keluar dari foreach dan ulang dari atas
+                }
+            }
+
+            // Jika semua kategori sudah dipakai, reset agar bisa re-loop dengan kategori berulang
+            if (count($kategoriYangSudahDipakai) >= count($kategoriTersedia)) {
+                $kategoriYangSudahDipakai = [];
+            }
+
+            // Jika tidak ada destinasi yang bisa ditambahkan, keluar dari loop
+            if (!$found) {
+                break;
+            }
+
+            // Stop jika tidak ada destinasi dengan harga di bawah sisa budget
+            $masihAdaDestinasiTerjangkau = $destinasiByRasio->first(function ($d) use ($sisaBudget, $sudahDipakaiId) {
+                return $d->harga <= $sisaBudget && !in_array($d->id, $sudahDipakaiId);
+            });
+
+            if (!$masihAdaDestinasiTerjangkau) {
+                break;
             }
         }
 
-        // Simpan ke session agar bisa diakses di halaman edit
         session()->put('rekomendasi_terpilih', collect($destinasiTerpilih)->pluck('id')->toArray());
         session()->put('budget_per_orang', $budgetPerOrang);
         session()->put('sisa_budget', $sisaBudget);
@@ -77,7 +113,7 @@ class RekomendasiController extends Controller
         $totalHargaPerOrang = $gabunganDestinasi->sum('harga');
         $budgetPerOrang = session()->get('budget_per_orang', 0);
         $sisaBudget = session()->get('sisa_budget', 0);
-        $totalBudget = session()->get('total_budget', 0); // ✅ Tambahkan ini
+        $totalBudget = session()->get('total_budget', 0);
         $jumlahOrang = session()->get('jumlah_orang', 1);
 
         return view('rekomendasi.edit', compact(
