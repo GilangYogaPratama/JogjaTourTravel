@@ -9,6 +9,7 @@ use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\RekomendasiController;
 use App\Http\Controllers\TransportasiController;
 use App\Http\Controllers\LayananTambahanController;
+use App\Http\Controllers\KategoriDestinasiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,8 @@ Route::get('/Destinasi', [App\Http\Controllers\DestinasiController::class, 'inde
 Route::get('/Transportasi', [App\Http\Controllers\TransportasiController::class, 'index'])->name('Transportasi');
 Route::get('/LayananTambahan', [App\Http\Controllers\LayananTambahanController::class, 'index'])->name('LayananTambahan');
 Route::get('/Paket', [App\Http\Controllers\PaketController::class, 'index'])->name('Paket');
+Route::resource('kategori', KategoriDestinasiController::class);
+
 
 Route::resource('destinasi', DestinasiController::class);
 Route::resource('transportasi', TransportasiController::class);
@@ -96,3 +99,8 @@ Route::get('/pembayaran/verifikasi/{id}', [PembayaranController::class, 'verifik
 Route::put('/pembayaran/konfirmasi/{id}', [PembayaranController::class, 'konfirmasi'])->name('pembayaran.konfirmasi');
 Route::post('/pembayaran/upload/{id}', [PembayaranController::class, 'uploadBukti'])->name('pembayaran.upload');
 Route::post('/pembayaran/upload/manual/{pesanan}', [PembayaranController::class, 'uploadManual'])->name('pembayaran.uploadManual');
+
+//Kategori
+Route::get('/kategori', [KategoriDestinasiController::class, 'index'])->name('kategori.index');
+Route::get('/pengelola/destinasi/kategori/create', [KategoriDestinasiController::class, 'create'])->name('kategori.create');
+Route::post('/pengelola/destinasi/kategori/store', [KategoriDestinasiController::class, 'store'])->name('kategori.store');

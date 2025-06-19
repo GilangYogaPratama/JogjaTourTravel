@@ -31,6 +31,9 @@
             <a href="{{ route('createDestinasi') }}" class="btn btn-dark mb-3" role="button">
               <i class="fas fa-plus"></i> Tambah Destinasi
             </a>
+            <a href="{{ route('kategori.index') }}" class="btn btn-outline-dark mb-3" role="button">
+              Lihat Kategori
+            </a>
           <table class="table table-hover">
             <thead class="text-center">
               <tr>
@@ -40,6 +43,7 @@
                 <th>Deskripsi</th>
                 <th>Harga</th>
                 <th>Rating</th>
+                <th>Kategori</th>
                 <th>Gambar Wisata</th>
                 <th style="width: 12%;">Aksi</th>
               </tr>
@@ -53,6 +57,7 @@
                 <td> {{ $destinasi->deskripsi }}</td>
                 <td class="text-center"> {{ $destinasi->harga }}</td>
                 <td class="text-center"> {{ $destinasi->rating }}</td>
+                <td>Kategori</td>
                 <td>
                   <a href="{{ Storage::url($destinasi->gambar_wisata) }}" target="_blank">
                     <img src="{{ Storage::url($destinasi->gambar_wisata) }}" alt="Gambar Wisata" width="100">

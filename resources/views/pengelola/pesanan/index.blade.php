@@ -30,7 +30,7 @@
           <a href="{{ route('pesanan.arsip') }}" target="_blank" class="btn btn-dark mb-3">
             <i class="fas fa-print"></i> Cetak Arsip
           </a>
-            <table>
+            <table class="table table-hover">
               <thead>
                 <tr>
                   <th style="width: 5%;">ID</th>
