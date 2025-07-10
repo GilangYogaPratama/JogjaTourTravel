@@ -78,6 +78,12 @@
                 </button>
             </form>
 
+            @if (session('error'))
+                <div class="mt-4 bg-red-600 text-white px-6 py-3 rounded shadow max-w-xl mx-auto">
+                    {{ session('error') }}
+                </div>
+            @endif
+
             <p class="text-sm italic text-white mt-4">
                 *budget belum termasuk biaya sewa transportasi dan layanan tambahan lainnya
             </p>

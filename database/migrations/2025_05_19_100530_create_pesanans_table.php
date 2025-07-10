@@ -23,11 +23,9 @@ return new class extends Migration
 
             $table->unsignedBigInteger('id_transportasi');
             $table->unsignedBigInteger('id_layanantambahan');
-            $table->unsignedBigInteger('id_rekomendasi')->nullable();
             $table->enum('status_ketersediaan', ['tersedia', 'tidak tersedia']);
 
             $table->foreign('id_transportasi')->references('id')->on('transportasi');
-            $table->foreign('id_rekomendasi')->references('id')->on('rekomendasi');
 
             $table->timestamps();
         });

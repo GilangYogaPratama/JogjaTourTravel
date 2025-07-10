@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
-<body class="bg-gray-100 font-[Poppins]">
+<body class="bg-blue-100 font-[Poppins]">
 
     <!-- Header -->
     <header class="bg-white text-gray-800 shadow-md p-4 fixed top-0 w-full z-50">

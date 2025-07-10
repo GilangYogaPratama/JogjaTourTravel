@@ -27,6 +27,12 @@ class RekomendasiController extends Controller
             return $destinasi;
         });
 
+        // ✅ Cek apakah budget per orang cukup untuk destinasi termurah
+        $hargaTermurah = $allDestinasi->min('harga');
+        if ($budgetPerOrang <= 0 || $budgetPerOrang < $hargaTermurah) {
+            return redirect()->back()->with('error', 'Budget tidak cukup untuk destinasi manapun.');
+        }
+
         // Urutkan berdasarkan rasio tertinggi
         $destinasiByRasio = $allDestinasi->sortByDesc('rasio')->values();
 
@@ -53,21 +59,18 @@ class RekomendasiController extends Controller
                     $sudahDipakaiId[] = $destinasi->id;
                     $sisaBudget -= $destinasi->harga;
                     $found = true;
-                    break; // keluar dari foreach dan ulang dari atas
+                    break;
                 }
             }
 
-            // Jika semua kategori sudah dipakai, reset agar bisa re-loop dengan kategori berulang
             if (count($kategoriYangSudahDipakai) >= count($kategoriTersedia)) {
                 $kategoriYangSudahDipakai = [];
             }
 
-            // Jika tidak ada destinasi yang bisa ditambahkan, keluar dari loop
             if (!$found) {
                 break;
             }
 
-            // Stop jika tidak ada destinasi dengan harga di bawah sisa budget
             $masihAdaDestinasiTerjangkau = $destinasiByRasio->first(function ($d) use ($sisaBudget, $sudahDipakaiId) {
                 return $d->harga <= $sisaBudget && !in_array($d->id, $sudahDipakaiId);
             });
