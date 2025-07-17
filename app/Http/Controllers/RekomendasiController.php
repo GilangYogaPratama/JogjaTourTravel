@@ -27,7 +27,7 @@ class RekomendasiController extends Controller
             return $destinasi;
         });
 
-        // ✅ Cek apakah budget per orang cukup untuk destinasi termurah
+        // Cek apakah budget per orang cukup untuk destinasi termurah
         $hargaTermurah = $allDestinasi->min('harga');
         if ($budgetPerOrang <= 0 || $budgetPerOrang < $hargaTermurah) {
             return redirect()->back()->with('error', 'Budget tidak cukup untuk destinasi manapun.');

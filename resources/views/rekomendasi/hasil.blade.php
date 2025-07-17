@@ -81,9 +81,17 @@
             <!-- Grid Destinasi -->
             @if(count($destinasiTerpilih) > 0)
                 <div class="grid justify-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                    @foreach($destinasiTerpilih as $destinasi)
-                        <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300 w-full max-w-xs mx-auto">
-                        <img src="{{ asset('storage/' . $destinasi->gambar_wisata) }}" alt="{{ $destinasi->nama_destinasi }}" class="w-full h-40 object-cover">
+                    @foreach($destinasiTerpilih as $index => $destinasi)
+                        <div class="relative bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300 w-full max-w-xs mx-auto">
+                            <!-- Tag Urutan dan Kategori -->
+                            <div class="absolute top-2 left-2 bg-yellow-400 text-white text-xs font-bold px-2 py-1 rounded shadow">
+                                #{{ $index + 1 }}
+                            </div>
+                            <div class="absolute top-2 right-2 bg-blue-600 text-white text-xs font-semibold px-2 py-1 rounded shadow">
+                                {{ $destinasi->kategori->nama_kategori ?? 'Tidak Diketahui' }}
+                            </div>
+
+                            <img src="{{ asset('storage/' . $destinasi->gambar_wisata) }}" alt="{{ $destinasi->nama_destinasi }}" class="w-full h-40 object-cover">
                             <div class="p-4 text-left flex flex-col justify-between h-[250px]">
                                 <div>
                                     <h3 class="text-lg font-semibold text-gray-900">{{ $destinasi->nama_destinasi }}</h3>
@@ -102,7 +110,7 @@
             <br>
             <form action="{{ route('rekomendasi.editRedirect') }}" method="POST">
                 @csrf
-                @foreach ($destinasiTerpilih as $destinasi)
+                @foreach($destinasiTerpilih as $index => $destinasi)
                     <input type="hidden" name="destinasi_ids[]" value="{{ $destinasi->id }}">
                 @endforeach
                 <input type="hidden" name="jumlah_orang" value="{{ $jumlahOrang }}">
