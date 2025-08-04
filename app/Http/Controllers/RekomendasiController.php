@@ -44,41 +44,54 @@ class RekomendasiController extends Controller
         $sudahDipakaiId = [];
 
         while (true) {
-            $found = false;
+        $found = false;
 
+        foreach ($destinasiByRasio as $destinasi) {
+            $kategoriDestinasi = $destinasi->kategori->nama_kategori ?? 'Tidak Ada';
+
+            // Coba seleksi hanya jika kategori belum digunakan
+            if (
+                !in_array($kategoriDestinasi, $kategoriYangSudahDipakai) &&
+                $destinasi->harga <= $sisaBudget &&
+                !in_array($destinasi->id, $sudahDipakaiId)
+            ) {
+                $destinasiTerpilih[] = $destinasi;
+                $kategoriYangSudahDipakai[] = $kategoriDestinasi;
+                $sudahDipakaiId[] = $destinasi->id;
+                $sisaBudget -= $destinasi->harga;
+                $found = true;
+                break;
+            }
+        }
+
+        // Jika semua kategori sudah digunakan, reset
+        if (count($kategoriYangSudahDipakai) >= count($kategoriTersedia)) {
+            $kategoriYangSudahDipakai = [];
+        }
+
+        // Jika tidak menemukan destinasi baru dengan pembatasan kategori
+        if (!$found) {
+            // Coba ambil destinasi apapun (boleh dari kategori yang sudah digunakan), selama masih sesuai budget dan belum dipakai
             foreach ($destinasiByRasio as $destinasi) {
-                $kategoriDestinasi = $destinasi->kategori->nama_kategori ?? 'Tidak Ada';
-
-                if (
-                    !in_array($kategoriDestinasi, $kategoriYangSudahDipakai) &&
-                    $destinasi->harga <= $sisaBudget &&
-                    !in_array($destinasi->id, $sudahDipakaiId)
-                ) {
+                if ($destinasi->harga <= $sisaBudget && !in_array($destinasi->id, $sudahDipakaiId)) {
                     $destinasiTerpilih[] = $destinasi;
-                    $kategoriYangSudahDipakai[] = $kategoriDestinasi;
                     $sudahDipakaiId[] = $destinasi->id;
                     $sisaBudget -= $destinasi->harga;
                     $found = true;
                     break;
                 }
             }
-
-            if (count($kategoriYangSudahDipakai) >= count($kategoriTersedia)) {
-                $kategoriYangSudahDipakai = [];
-            }
-
-            if (!$found) {
-                break;
-            }
-
-            $masihAdaDestinasiTerjangkau = $destinasiByRasio->first(function ($d) use ($sisaBudget, $sudahDipakaiId) {
-                return $d->harga <= $sisaBudget && !in_array($d->id, $sudahDipakaiId);
-            });
-
-            if (!$masihAdaDestinasiTerjangkau) {
-                break;
-            }
         }
+
+        // Hentikan jika memang sudah tidak ada destinasi yang bisa dipilih
+        $masihAdaDestinasiTerjangkau = $destinasiByRasio->first(function ($d) use ($sisaBudget, $sudahDipakaiId) {
+            return $d->harga <= $sisaBudget && !in_array($d->id, $sudahDipakaiId);
+        });
+
+        if (!$found || !$masihAdaDestinasiTerjangkau) {
+            break;
+        }
+    }
 
         session()->put('rekomendasi_terpilih', collect($destinasiTerpilih)->pluck('id')->toArray());
         session()->put('budget_per_orang', $budgetPerOrang);
