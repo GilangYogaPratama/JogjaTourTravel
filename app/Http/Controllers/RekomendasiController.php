@@ -185,10 +185,27 @@ class RekomendasiController extends Controller
     {
         $id = session('id_rekomendasi');
 
+        // Kalau belum ada id rekomendasi di session, pakai data dari session saja
         if (!$id) {
-            return redirect()->route('rekomendasi.edit')->with('error', 'Data pesanan tidak ditemukan.');
+            $daftarDestinasi = Destinasi::whereIn('id', session('daftar_destinasi', []))->get();
+            $jumlahOrang = session('jumlah_orang', 1);
+            $totalBudget = session('total_budget', 0);
+            $totalHarga = $daftarDestinasi->sum('harga') * $jumlahOrang;
+
+            $layananTambahanList = LayananTambahan::all();
+            $transportasiList = Transportasi::all();
+
+            return view('rekomendasi.pesanan', compact(
+                'daftarDestinasi',
+                'jumlahOrang',
+                'totalBudget',
+                'totalHarga',
+                'layananTambahanList',
+                'transportasiList'
+            ));
         }
 
+        // Kalau sudah tersimpan di database
         $rekomendasi = Rekomendasi::with('destinasi')->findOrFail($id);
 
         $daftarDestinasi = $rekomendasi->destinasi;
@@ -196,10 +213,7 @@ class RekomendasiController extends Controller
         $totalBudget = $rekomendasi->budget;
         $totalHarga = $daftarDestinasi->sum('harga') * $jumlahOrang;
 
-        // Ambil data layanan tambahan
         $layananTambahanList = LayananTambahan::all();
-
-        // Ambil data transportasi
         $transportasiList = Transportasi::all();
 
         return view('rekomendasi.pesanan', compact(

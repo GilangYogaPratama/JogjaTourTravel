@@ -119,7 +119,7 @@
                             </div>
                             <div class="col-md-6">
                                 <label for="jumlah_orang" class="form-label">Jumlah Orang</label>
-                                <input type="number" min="1" class="form-control" id="jumlah_orang" name="jumlah_orang" placeholder="Jumlah peserta" required>
+                                <input type="number" min="1" class="form-control" id="jumlah_orang" name="jumlah_orang" value="{{ old('jumlah_orang', $jumlahOrang ?? '') }}" placeholder="Jumlah peserta" required>
                             </div>
                             <div class="col-md-6">
                                 <label for="tanggal_keberangkatan" class="form-label">Tanggal Keberangkatan</label>
